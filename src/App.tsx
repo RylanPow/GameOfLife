@@ -66,7 +66,7 @@ const App: React.FC = () => {
         });
       });
       
-      setTimeout(runSimulation, 1000); //1000 ms delay
+      setTimeout(runSimulation, 200); //1000 ms delay
   }, []); //empty array as second argument, to make sure function is only created once
 
   //line DIRECTLY below turns single column of boxes into a full grid, `repeat... 2px` is surrounded by BACKTICKS!!!
@@ -82,6 +82,24 @@ const App: React.FC = () => {
     }}
     >
       {running ? 'stop' : 'start'}</button>
+    
+
+
+
+    <button onClick={() => { //clear button
+      setGrid(generateEmptyGrid());
+    }}> Clear </button>
+
+    <button onClick={() => { //generate random grid
+      const rows = [];
+      for(let i = 0; i < numRows; i++) {
+        rows.push(Array.from(Array(numCols), () => (Math.random() - 0.7 > Math.random() ? 1 : 0)));
+      }
+      setGrid(rows);
+    }}> Random </button>
+
+
+
     <div style = {{display: 'grid', gridTemplateColumns: `repeat(${numCols}, 20px)`}}> 
     {grid.map((rows, i) => rows.map((col, j) => ( 
     <div 
