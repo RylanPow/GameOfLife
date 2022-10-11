@@ -1,1 +1,1 @@
-adatped from a Ben Awad video
+adapted from a Ben Awad video
