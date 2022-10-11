@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState, useRef} from 'react';
 import produce from 'immer';
 
 const numRows = 50;
@@ -15,8 +15,27 @@ const App: React.FC = () => {
   
   console.log(grid); //will print in the console(obviously)
 
+  const [running, setRunning] = useState(false); //false by default
+
+  const runningRef = useRef(running);
+  runningRef.current = running
+
+  const runSimulation = useCallback(() => {
+      if(!runningRef.current) {
+        return;
+      }
+      setTimeout(runSimulation, 1000); //1000 ms delay
+  }, []) //empty array as second argument, to make sure function is only created once
+
   //line DIRECTLY below turns single column of boxes into a full grid, `repeat... 2px` is surrounded by BACKTICKS!!!
   return (
+    //"fragment" below
+    <> 
+    <button onClick ={() =>{
+      setRunning(!running);
+    }}
+    >
+      {running ? 'stop' : 'start'}</button>
     <div style = {{display: 'grid', gridTemplateColumns: `repeat(${numCols}, 20px)`}}> 
     {grid.map((rows, i) => rows.map((col, k) => ( 
     <div 
@@ -39,8 +58,9 @@ const App: React.FC = () => {
   /> 
   ))
     )}
-  </div> //updates page everytime i save!
+  </div> 
+  </>
   );
 }
-
+//updates page everytime i save!
 export default App;
