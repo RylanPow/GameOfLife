@@ -1,9 +1,11 @@
 import React, {useCallback, useState, useRef} from 'react';
 import produce from 'immer';
 
-const numRows = 40;
-const numCols = 50;
-const cellSize = 20; //in px
+
+
+
+const numRows = 35;
+const numCols = 60;
 
 const operations = [
   [0, 1],
@@ -15,6 +17,8 @@ const operations = [
   [1, 0],
   [-1, 0]
 ];
+
+
 
 const generateEmptyGrid = () => {
   const rows = [];
@@ -29,10 +33,16 @@ const App: React.FC = () => {
   const [grid, setGrid] = useState(() => {
     return generateEmptyGrid();
   });//grid state stored here; values in grid will be changing obviously
+
   
-  //console.log(grid); //will print in the console(obviously)
+  const value = useRef()
 
   const [running, setRunning] = useState(false); //false by default
+ 
+
+
+  
+
 
   const runningRef = useRef(running);
   runningRef.current = running
@@ -59,8 +69,7 @@ const App: React.FC = () => {
                   gridCopy[i][j] = 0;
                 } else if(g[i][j] == 0 && neighbors == 3) {
                   gridCopy[i][j] = 1;
-                }
-              
+                }             
             }
           }
         });
@@ -69,18 +78,37 @@ const App: React.FC = () => {
       setTimeout(runSimulation, 200); //1000 ms delay
   }, []); //empty array as second argument, to make sure function is only created once
 
+
+
+
   //line DIRECTLY below turns single column of boxes into a full grid, `repeat... 2px` is surrounded by BACKTICKS!!!
   return (
-    //"fragment" below
+
+    //"fragment" below; can normally only return ONE thing, so we return ONE fragment... that contains multiple things
     <> 
+    <div style = {{
+      color: '#00b0dc',
+      fontSize: '40px',
+      fontWeight: '900',
+      margin: 'auto',
+      backgroundColor: 'rgb(50,50,50)',
+      //width: '50%',
+      border: 'solid 8px #00b0dc',
+      textAlign: 'center',
+      padding: '2px',
+      height: '60px',
+      textShadow: '#000 0px 0px 15px',
+      WebkitFontSmoothing: 'antialiased',
+    }}>CONWAY'S GAME OF LIFE</div>
+
+
+
     <button onClick ={() =>{
       setRunning(!running);
       if(!running) {
       runningRef.current = true;
       runSimulation();
-      }
-    }}
-    >
+      }}}>
       {running ? 'stop' : 'start'}</button>
     
 
@@ -100,7 +128,16 @@ const App: React.FC = () => {
 
 
 
-    <div style = {{display: 'grid', gridTemplateColumns: `repeat(${numCols}, 20px)`}}> 
+
+    <div style = {{
+      display: 'grid', 
+      gridTemplateColumns: `repeat(${numCols}, 20px)`,
+      marginLeft: '15px',
+      //marginRight: 'auto',
+      width: '85%',
+      //justifyItems: 'center',
+      
+    }}>
     {grid.map((rows, i) => rows.map((col, j) => ( 
     <div 
     key={`${i}-${j}`} //Arrays need this. Research further. This is a NONSTANDARD way to write a key.
@@ -110,15 +147,16 @@ const App: React.FC = () => {
         gridCopy[i][j] = grid[i][j] ? 0 : 1; //if 0, click makes 1, and vice-versa
       });
       setGrid(newGrid);
-      //grid[i][j] = 1 UPDATING STATE VARIABLE LIKE THIS IS BAD! use "immer" library!
     }}
 
-    style = {{
-      width: cellSize, 
-      height: cellSize, 
-      backgroundColor: grid[i][j] ? 'skyblue' : undefined, //if grid[i][j] == 1, else leave "off"
-      border: 'solid 1px darkgray',
+  
 
+    style = {{
+      width: 20, 
+      height: 20, 
+      backgroundColor: grid[i][j] ? '#00b0dc' : undefined, //if grid[i][j] == 1, else leave "off"
+      border: 'solid 1px',
+      color: 'rgb(90, 90, 90)',
   }} 
   /> 
   ))
@@ -126,6 +164,9 @@ const App: React.FC = () => {
   </div> 
   </>
   );
+  
 }
+
+
 //updates page everytime i save!
 export default App;
