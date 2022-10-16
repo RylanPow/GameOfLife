@@ -3,9 +3,8 @@ import produce from 'immer';
 
 
 
-
-const numRows = 35;
-const numCols = 60;
+const numRows = 25;
+const numCols = 120;
 
 const operations = [
   [0, 1],
@@ -35,7 +34,6 @@ const App: React.FC = () => {
   });//grid state stored here; values in grid will be changing obviously
 
   
-  const value = useRef()
 
   const [running, setRunning] = useState(false); //false by default
  
@@ -86,18 +84,29 @@ const App: React.FC = () => {
 
     //"fragment" below; can normally only return ONE thing, so we return ONE fragment... that contains multiple things
     <> 
-    <div style = {{
-      color: '#00b0dc',
+    <div style =  {{
+      color: 'blue',
+      //WebkitTextFillColor: 'transparent',
       fontSize: '40px',
       fontWeight: '900',
       margin: 'auto',
       backgroundColor: 'rgb(50,50,50)',
       //width: '50%',
-      border: 'solid 8px #00b0dc',
+      border: 'linearGradient(blue, red) 40px',//solid 8px #00b0dc',
+
+      backgroundImage: 'linear-gradient(to right, rgb(80, 80, 80), black 95%)',
+
+      borderImage: 'linear-gradient(45deg, #0098FF , blue, #002482)',
+      borderWidth: '10px',
+      borderStyle: 'solid',
+      backgroundClip: 'content-box, border-box',
+      backgroundOrigin: 'border-box',
+      borderImageSlice: '1',
+
       textAlign: 'center',
-      padding: '2px',
+      //padding: '2px',
       height: '60px',
-      textShadow: '#000 0px 0px 15px',
+      textShadow: '#000 0px 0px 9px',
       WebkitFontSmoothing: 'antialiased',
     }}>CONWAY'S GAME OF LIFE</div>
 
@@ -108,15 +117,18 @@ const App: React.FC = () => {
       if(!running) {
       runningRef.current = true;
       runSimulation();
-      }}}>
-      {running ? 'stop' : 'start'}</button>
+      }}}
+      style = {{
+      marginTop:'20px',
+      border: 'solid 5px #00b0dc',
+      color: '#00b0dc',
+      backgroundColor: 'rgb(40, 40, 40)',
+      fontWeight: 'bold',
+      fontSize: '16px',
+      }}
+      >
+      {running ? 'Stop' : 'Start'}</button>
     
-
-
-
-    <button onClick={() => { //clear button
-      setGrid(generateEmptyGrid());
-    }}> Clear </button>
 
     <button onClick={() => { //generate random grid
       const rows = [];
@@ -124,19 +136,39 @@ const App: React.FC = () => {
         rows.push(Array.from(Array(numCols), () => (Math.random() - 0.35 > Math.random() ? 1 : 0)));
       }
       setGrid(rows);
-    }}> Random </button>
+    }}
+    style = {{
+      marginLeft:'-5px',
+      marginTop: '20px',
+      border: 'solid 5px #00b0dc',
+      color: '#00b0dc',
+      backgroundColor: 'rgb(40, 40, 40)',
+      fontWeight: 'bold',
+      fontSize: '16px',
+    }}
+    > Random </button>
 
+    <button onClick={() => { //clear button
+      setGrid(generateEmptyGrid());
+    }}
+    style = {{
+      marginLeft: '-5px',
+      marginTop: '20px',
+      border: 'solid 5px #00b0dc',
+      color: '#00b0dc',
+      backgroundColor: 'rgb(40, 40, 40)',
+      fontWeight: 'bold',
+      fontSize: '16px',
+    }}
+    > Clear </button>
 
 
 
     <div style = {{
       display: 'grid', 
       gridTemplateColumns: `repeat(${numCols}, 20px)`,
-      marginLeft: '15px',
-      //marginRight: 'auto',
-      width: '85%',
-      //justifyItems: 'center',
-      
+      alignItems: 'center',
+      justifyItems: 'center',
     }}>
     {grid.map((rows, i) => rows.map((col, j) => ( 
     <div 
@@ -154,14 +186,26 @@ const App: React.FC = () => {
     style = {{
       width: 20, 
       height: 20, 
-      backgroundColor: grid[i][j] ? '#00b0dc' : undefined, //if grid[i][j] == 1, else leave "off"
+      backgroundColor: grid[i][j] ? '#00b0dc' : 'rgb(65, 65, 65)', //if grid[i][j] == 1, else leave "off"
       border: 'solid 1px',
       color: 'rgb(90, 90, 90)',
   }} 
   /> 
   ))
     )}
-  </div> 
+  </div>
+  <p style = {{
+    color: 'white',
+    fontSize: '35',
+    marginLeft: '20px'
+  }}
+  >Conway's Game of Life is a cellular automaton invented by the late British mathematician John Conway.  
+  <br/>It is a famous and extremely simple demonstration of how chaos and self governance can arise 
+  out of a set intial state. <br/><br/>The rules are as follows: <br/><br/>
+ {'>'}A cell that is ON, or "alive", will die if it has fewer than 2 neighbors, as if by underpopulation<br/>
+ {'>'}A cell that is ON, or "alive", will die if it has more than 3 neighbors, as if by underpopulation<br/>
+ {'>'}A cell that is OFF, or "dead", will revive if it has EXACTLY 3 neighbors<br/>
+ </p> 
   </>
   );
   
