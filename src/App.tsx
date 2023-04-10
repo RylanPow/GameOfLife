@@ -1,8 +1,6 @@
 import React, {useCallback, useState, useRef} from 'react';
 import produce from 'immer';
 
-
-
 const numRows = 25;
 const numCols = 120;
 
@@ -148,6 +146,32 @@ const App: React.FC = () => {
     }}
     > Random </button>
 
+
+
+
+<button onClick={() => { //generate random grid
+      //const newGrid = produce(grid, gridCopy)
+
+      const rows = [];
+      for(let i = 0; i < numRows; i++) {
+        rows.push(Array.from(Array(numCols), () => (1)));
+      }
+      setGrid(rows);
+    }}
+    style = {{
+      marginLeft:'-5px',
+      marginTop: '20px',
+      border: 'solid 5px #00b0dc',
+      color: '#00b0dc',
+      backgroundColor: 'rgb(40, 40, 40)',
+      fontWeight: 'bold',
+      fontSize: '16px',
+    }}
+    > Save </button>
+
+
+
+
     <button onClick={() => { //clear button
       setGrid(generateEmptyGrid());
     }}
@@ -174,7 +198,7 @@ const App: React.FC = () => {
     <div 
     key={`${i}-${j}`} //Arrays need this. Research further. This is a NONSTANDARD way to write a key.
 
-    onClick={() => {
+    onMouseDown={() => {
       const newGrid = produce(grid, gridCopy => {
         gridCopy[i][j] = grid[i][j] ? 0 : 1; //if 0, click makes 1, and vice-versa
       });
@@ -186,7 +210,7 @@ const App: React.FC = () => {
     style = {{
       width: 20, 
       height: 20, 
-      backgroundColor: grid[i][j] ? '#00b0dc' : 'rgb(65, 65, 65)', //if grid[i][j] == 1, else leave "off"
+      backgroundColor: grid[i][j] ? '#00b0dc' : 'rgb(75, 75, 75)', //if grid[i][j] == 1, else leave "off"
       border: 'solid 1px',
       color: 'rgb(90, 90, 90)',
   }} 
