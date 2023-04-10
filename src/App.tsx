@@ -210,7 +210,7 @@ const App: React.FC = () => {
     style = {{
       width: 20, 
       height: 20, 
-      backgroundColor: grid[i][j] ? '#00b0dc' : 'rgb(75, 255, 75)', //if grid[i][j] == 1, else leave "off"
+      backgroundColor: grid[i][j] ? '#00b0dc' : 'rgb(75, 75, 75)', //if grid[i][j] == 1, else leave "off"
       border: 'solid 1px',
       color: 'rgb(90, 90, 90)',
   }} 
