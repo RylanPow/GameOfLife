@@ -228,7 +228,7 @@ const App: React.FC = () => {
   out of a set intial state. <br/><br/>The rules are as follows: <br/><br/>
  {'>'}A cell that is ON, or "alive", will die if it has fewer than 2 neighbors, as if by underpopulation<br/>
  {'>'}A cell that is ON, or "alive", will die if it has more than 3 neighbors, as if by overpopulation<br/>
- {'>'}A cell that is OFF, or "dead", will revive if it has EXACTLY 3 neighbors<br/>
+ {'>'}A cell that is OFF, or "dead", will revive if it has exactly 3 neighbors<br/>
  </p> 
   </>
   );
